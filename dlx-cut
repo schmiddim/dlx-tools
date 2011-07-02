@@ -1,0 +1,109 @@
+#!/bin/bash
+#######remove opening + credits from am video
+###parameter:
+
+##	-s end of the opening (in seconds)
+##	-c credit length (in seconds)
+##	file
+
+#echo -e "usage: $(basename "$0") 
+#	-eo end of the opening (in seconds), required
+#	-cl credit length (in seconds), required
+
+
+
+function isNumeric(){ [ "$(echo $*|grep -v "[^0-9]")" ];}
+###### transform s in hh:mm:ss format
+function seconds2hms(){
+	if [ $1 ] 
+	then
+		h=$(echo "$1/3600"|bc)
+		m=$(echo "($1-($h*3600))/60"|bc)
+		s=$(echo "($1-($h*3600) - ($m*60))"|bc)
+		echo $h:$m:$s
+	fi
+
+}
+function echousage(){
+	echo usage: $(basename $0) -s [end of intro] -c [duration of closing] files
+}
+
+
+######## getting args
+while getopts ":s:c:" opt; do
+	case $opt in		
+		s)
+			start="$OPTARG"
+			;;
+		c)
+			cl="$OPTARG"
+			;;
+		:)
+			echousage
+			echo "Option -$OPTARG requires an argument." >&2
+			exit 1
+			;;
+		esac
+done
+######## getting args
+
+######## check params
+if  ! isNumeric $start 
+then 
+	echousage
+	echo -s $start must be a digit greater or equal zero
+
+	exit
+fi
+
+if  ! isNumeric $cl
+
+then 
+	echousage
+	echo -c $start must be a digit greater or equal zero
+	exit
+fi
+
+if [  "$start" -le  "0" ]
+then
+	$(echousage)
+	echo -s must be a digit greater or equal zero
+	exit 
+fi
+
+if [  ! "$cl" -ge "0" ] 	
+then	
+	echousage
+	echo -c must be a digit greater or equal zero
+	exit
+fi
+echo $@
+######## check params
+###remove getops crap
+for((i=1; $i<=2;i++))
+#for((i=1; $i<=4;i++))
+do
+	shift
+done
+
+
+
+for ARG in "$@"
+do 
+
+	
+	eo=$start	#end of the opening
+
+
+	pt=$( mplayer -vo null -ao null -frames 0 -identify "$ARG" 2>&1 | awk '{FS="="}; /ID_LENGTH/{ print $2}')
+
+	et=$(echo "$pt-($cl+$start)"|bc)
+	echo -e "length:\t$pt\t$(seconds2hms $pt)"
+	echo -e "start:\t$start"
+	echo -e "stop:\t$et\t$( seconds2hms $et)"
+
+	##the cut command
+	mencoder "$ARG" -ss $start -endpos $et -ovc copy -oac copy -o small."$ARG"
+
+
+done 

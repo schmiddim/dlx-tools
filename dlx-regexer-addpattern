@@ -1,0 +1,19 @@
+#!/bin/bash
+
+######################################
+# Add a Pattern to ~/.regexer.sed
+######################################
+
+
+if [ $# -lt 1 ]
+then
+	echo usage $(basename $0) [pattern]
+	exit
+
+fi
+for i in $@
+do
+
+	echo  "s/$i//;">>~/.regexer.sed
+
+done

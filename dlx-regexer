@@ -1,0 +1,46 @@
+#!/bin/bash
+
+#####file with regex exists?
+REGEXFILE=~/.regexer.sed
+if [ ! -f $REGEXFILE ]
+then
+	echo file not found
+	touch $REGEXFILE
+	#create std. .regexer file
+	echo -e "
+s/XviD*//gi;\ns/AC3//gi;\ns/German//gi;\ns/DVDRiP//gi;\ns/-OC//g;\ns/iNTERNAL//gi;\ns/-XMF//gi;\ns/-CiA//gi;\ns/-SAMFD//gi;\ns/.BluRay.//;\ns/.x26.//;\ns/.MOViESTARS.//;\ns/.DL.//;\ns/.DTS//;\ns/.SightHD//;\ns/.iNSPiRED//;\ns/.FS//;\ns/-STARS//;\ns/XviD-STARS//;\ns/ANiME//;\ns/.FS.//;\ns/READ//;\ns/NFO//;\ns/SATRip//;\ns/[1080p]]//;\ns/[BDRip]//;\ns/.UNCUT//;\ns/.HACO//;\ns/.ReadNfo-ETM//;\ns/.ETM//;\ns/.WS//;\ns/.repacked//;\ns/.AVG//;\ns/.Cut//;\ns/.108//;\ns/.Directors//;\ns/.PROPER//;\ns/.siTH//;\ns/.CRiTiCAL//;\ns/.DOKU//;\ns/.RiPTAil//;\ns/.720//;\ns/.UMF//;\ns/.EXTENDED//;\ns/.CRiSP//;\ns/.LOGiCAL//;\ns/.IA//;\ns/.RiPTAil//;\ns/.RiPTAiL//;\ns/.SiTH//;\ns/.Proper//;\ns/.GM4F//;\ns/.RSG//;\ns/EXPirED//;\ns/EXPiRED//;\ns/.DELiCiOUS//;\ns/.TU//;\ns/.REPACK//;\ns/.MOViEFRiEND//;\ns/.XViD//;\ns/.DC//;\ns/.BaCKToRG//;\ns/.BDRip//;\ns/.BiG//;\ns/.GRF//;\ns/.LieS//;\ns/.SOLDE//;\ns/.Subbed//;\ns/.ViDEOWELT//;\ns/.SE//;\ns/.Remastered//;\ns/.HoRnEtS//;\ns/.CENTi//;\ns/.CRoW//;\ns/.SAV3//;\ns/.DOLLHEAD//;\ns/.DETAiLS//;\ns/.MFC.DEFUSED//;\ns/.LD//;\ns/.Pleaders//;\ns/.KiNOWELT//;\ns/.DEFD//;\ns/.MFC//;\ns/.RVOiR//;\ns/.EMPiRE//;\ns/.RmE//;\ns/.MDM//;\ns/.HDTV0//;\ns/.x264Crew//;\ns/.FmE//;\ns/.AMBiTiOUS//;\ns/.SiGHT//;\ns/.BDRIP//;\ns/.CinePlexx//;\ns/.BDRiP//;\ns/EXQUiSiTE//;\ns/.SYH//;\ns/.HTF//;\n
+" > $REGEXFILE
+fi
+
+
+
+
+function regexer()
+{
+	NEW=$(echo $1 |sed -f $REGEXFILE)
+	NEW=$(echo $NEW |sed 's/.-/./g')
+	NEW=$(echo $NEW |sed 's/\.\{2,\}/./g') # remove .. ... ....	
+NEW=$(echo $NEW |sed 's/ \./\./g')
+#	NEW=$(echo $NEW |awk {'print tolower($_)'})	#to lower
+	if [ "$1" != "$NEW" ]
+	then
+		echo new name: $NEW
+		mv "$1" "$NEW"
+	else
+		echo nothing to do for me
+	fi
+	return 0
+}
+
+for ARG in "$@"
+do 
+	if [[  -f "$ARG" || -d "$ARG" ]]
+	then
+		#regexer $ARG		
+		echo "$ARG" found
+		regexer "$ARG"
+	else
+		echo file "$ARG" not found
+	fi
+
+done

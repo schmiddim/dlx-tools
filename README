@@ -1,0 +1,41 @@
+example:
+
+
+ms@nostromo:~/downloads$ dlx-edit So.finster.die.Nacht.German.DVDRip.XviD-CRUCiAL/ The.* Wedlock.German.1991.UNCUT.DVDRiP.XviD-ETM/ Der.* Agents.Secrets.Im.Fadenkreuz.des.Todes.German.2004.AC3.DVDRip.XviD.iNTERNAL-CiA/
+So.finster.die.Nacht.German.DVDRip.XviD-CRUCiAL/ :1 vid found -> renameByBaseName
+nichts komprimiertes gefunden in So.finster.die.Nacht.German.DVDRip.XviD-CRUCiAL.avi
+So.finster.die.Nacht.German.DVDRip.XviD-CRUCiAL.avi found
+new name: So.finster.die.Nacht.avi
+...
+The.Collector.UNCUT.German.2009.AC3.DL.DVDRiP.XViD-GOREHOUNDS :1 vid found -> renameByBaseName
+nichts komprimiertes gefunden in The.Collector.UNCUT.German.2009.AC3.DL.DVDRiP.XViD-GOREHOUNDS.avi
+The.Collector.UNCUT.German.2009.AC3.DL.DVDRiP.XViD-GOREHOUNDS.avi found
+new name: The.Collector.2009.avi
+...
+The.Night.Listener.German.2006.DVDRiP.XViD-PIEP :1 vid found -> renameByBaseName
+nichts komprimiertes gefunden in The.Night.Listener.German.2006.DVDRiP.XViD-PIEP.avi
+The.Night.Listener.German.2006.DVDRiP.XViD-PIEP.avi found
+new name: The.Night.Listener.2006.PIEP.avi
+...
+The.Rite.Das.Ritual.2011.German.AC3.BDRip.XviD-EHEC :1 vid found -> renameByBaseName
+nichts komprimiertes gefunden in The.Rite.Das.Ritual.2011.German.AC3.BDRip.XviD-EHEC.avi
+The.Rite.Das.Ritual.2011.German.AC3.BDRip.XviD-EHEC.avi found
+new name: The.Rites.Ritual.2011.EHEC.avi
+...
+Wedlock.German.1991.UNCUT.DVDRiP.XviD-ETM/ :1 vid found -> renameByBaseName
+nichts komprimiertes gefunden in Wedlock.German.1991.UNCUT.DVDRiP.XviD-ETM.avi
+Wedlock.German.1991.UNCUT.DVDRiP.XviD-ETM.avi found
+new name: Wedlock.1991.avi
+...
+Der.Englaender.der.auf.einen.Huegel.stieg.und.von.einem.Berg.herunterkam.1995.XVID-DVDRIP-GERMAN-DL-GME2000 :1 vid found -> renameByBaseName
+nichts komprimiertes gefunden in Der.Englaender.der.auf.einen.Huegel.stieg.und.von.einem.Berg.herunterkam.1995.XVID-DVDRIP-GERMAN-DL-GME2000.avi
+Der.Englaender.der.auf.einen.Huegel.stieg.und.von.einem.Berg.herunterkam.1995.XVID-DVDRIP-GERMAN-DL-GME2000.avi found
+new name: Der.Englaender.der.auf.einen.Huegel.stieg.und.von.einem.Berg.herunterkam.1995.avi
+...
+no vid's found...quit
+Agents.Secrets.Im.Fadenkreuz.des.Todes.German.2004.AC3.DVDRip.XviD.iNTERNAL-CiA/ more than 1 vid found -> merger
+Agents.Secrets.Im.Fadenkreuz.des.Todes.German.2004.AC3.DVDRip.XviD.iNTERNAL-CiA/
+Merger: videos found: Agents.Secrets.Im.Fadenkreuz.des.Todes.German.2004.AC3.DVDRip.XviD.iNTERNAL-CiA/CD1/cia-ifdt-xvid-cd1.avi Agents.Secrets.Im.Fadenkreuz.des.Todes.German.2004.AC3.DVDRip.XviD.iNTERNAL-CiA/CD2/cia-ifdt-xvid-cd2.avi file=Agents.Secrets.Im.Fadenkreuz.des.Todes.German.2004.AC3.DVDRip.XviD.iNTERNAL-CiA.avi
+Agents.Secrets.Im.Fadenkreuz.des.Todes.German.2004.AC3.DVDRip.XviD.iNTERNAL-CiA.avi found
+new name: Agents.Secrets.Im.Fadenkreuz.des.Todes.2004.avi
+

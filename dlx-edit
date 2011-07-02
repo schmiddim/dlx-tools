@@ -1,0 +1,81 @@
+#!/bin/bash
+
+#############################
+#Prüfe Verzeichniss:
+#AAAAAAAAAA
+#  Film mit mehreren Teilen?
+#	->dlx-merger
+#BBBBBBBBBB
+#  Serie oder Film mit einem Teil?
+#	->renameByBaseName
+
+
+function edit(){
+
+	BASE=$(basename "$1")
+
+	local LIST=$(find "$1" -maxdepth 2 -name '*.avi'  -or -name '*.mkv'|sort -n)
+	#for F in "$LIST"
+	for F in ${LIST[@]}
+	do
+		
+		#remove the sample
+		sample=$(echo "$F"|grep [Ss]ample)
+		if [[ $? -eq 0 ]]
+			then
+				echo >/dev/null	##eq to ;
+			else		
+
+				local PARTS=("${PARTS[@]}" "$F")
+
+		fi
+	done
+
+	local count="${#PARTS[*]}"
+
+	if [[ $count -le 0 ]]; then
+		echo no vid\'s found...quit
+		return 127
+	fi
+
+	if [[ $count -eq 1 ]]; then
+		echo "$1 :1 vid found -> renameByBaseName"
+		local value=$(dlx-rename "$1")		
+		###header compression
+		dlx-compression ${value##*file=}
+		###ausgabe file=...
+		dlx-regexer  ${value##*file=}
+echo "..."
+
+	fi
+	
+	if [[ $count -ge 2 ]]; then
+		echo "$1 more than 1 vid found -> merger"
+		echo "$1"
+		local value=$(dlx-merger "$1")
+		echo $value
+		dlx-regexer ${value##*file=}
+
+		
+	fi
+	
+
+} #function
+####durch argumente iterieren
+for ARG in "$@"
+do 
+	if [ -d "$ARG" ]
+	then
+		edit "$ARG"
+	else	
+		if [ -f "$ARG" ]
+		then
+			dlx-regexer "$ARG"
+		else
+			echo "nothing to do for $ARG"
+		fi
+
+	fi
+
+done
+

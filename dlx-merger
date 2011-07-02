@@ -1,0 +1,95 @@
+#!/bin/bash
+##mergt alle avidateien aus den unterordnern - außer der sample datei
+##
+#http://www.grymoire.com/Unix/Sed.html#uh-2
+ 	
+
+# @(#) s1 finding command with bash
+exists()
+{
+	if command -v $1 &>/dev/null
+	then
+		return 1
+	else
+		echo "Command :$1 not found... exit"
+		exit -1
+	fi
+}
+##wich avimerge?
+exists avimerge
+
+
+
+##enough params?
+if [ $# -lt 1 ]
+then 
+
+	echo usage: $(basename $0) directory1 directory2 directoryN
+	exit -1
+fi
+########################################################################
+function mergevideo()	#merge avi files in subfolders
+{
+FOLDER=$1
+
+local LIST=(`find "$FOLDER" -maxdepth 2 -name '*.avi' |sort -n`)
+for FILE in ${LIST[@]}
+do
+	#don't need the Sample
+	sample=$(echo $FILE|grep [Ss]ample)
+	if [[ $? -eq 0 ]]
+		then
+			echo >/dev/null	##eq to ;
+		else			
+			local PARTS=("${PARTS[@]}" "$FILE")
+	fi
+
+done
+##Videos found?
+if [ ! ${#PARTS[@]} -gt 0 ]
+then
+	echo "no avi files found... exit"
+	return 127
+fi
+
+
+
+local BASE=$(basename `pwd`).avi #dirname
+BASE=$(echo $FOLDER|sed 's|/*||g').avi				#name of the new vid
+
+echo -e Merger: videos found: ${PARTS[*]}
+echo -e "\n"
+avimerge -o "$BASE" -i  ${PARTS[*]}  >/dev/null  2>&1
+
+
+local RETCODE=$?
+if [ "$RETCODE" -eq 0 ]
+then
+	echo file=$BASE
+	###delete Folder
+	rm -R $FOLDER
+else 
+	echo error
+fi
+
+return $RETCODE
+} #function
+
+################################################################
+#####is dir?
+
+for ARG in "$@"
+do 
+	if [  -d "$ARG" ]
+	then
+		
+		mergevideo "$ARG"
+		 
+	else
+		echo $ARG isn\'t a directory
+	
+	fi
+
+done
+
+

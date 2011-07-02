@@ -1,0 +1,66 @@
+#!/bin/bash
+
+function hascompression()
+{
+	en='Algorithm: 3 (header removal)'
+	de='Algorithmus: 3 (Entfernen von Kopfdaten)'
+	mkvinfo $1 | grep -e "$en" -e "$de" &>/dev/null
+	ret=$?
+	if [ $ret -eq 0 ]
+	then
+		echo "komprimierte Header in $1"
+		return 0
+	else 	
+		echo "nichts komprimiertes gefunden in $1"
+		return 1
+	fi
+}
+#function
+function removecompression()
+{
+	hascompression $1
+
+	if [ $? -eq 0 ]
+	then
+	
+		mv $1 $1.bak
+		mkvmerge -o "$1" --engage keep_bitstream_ar_info -A -S --compression -1:none "$1.bak" -D -S --compression -1:none "$1.bak" -A -D --compression -1:none "$1.bak"
+		rm $1.bak		
+echo fukr
+	fi
+
+
+
+
+}
+#function
+
+onlyinfo=false
+while getopts ':i' OPTION; do
+	case "$OPTION" in 
+    i)   onlyinfo=true  && shift;;
+    *)   echo "Unbekannter Parameter"
+
+	esac
+done
+
+
+
+
+for ARG in $@
+do 
+	if [ -f $ARG ]
+	then
+		if [ $onlyinfo == true ]
+		then
+			hascompression $ARG
+		else
+
+			removecompression $ARG
+		fi
+	else
+		echo $ARG isn\'t a file
+	fi
+
+
+done
