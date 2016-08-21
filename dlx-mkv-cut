@@ -1,0 +1,57 @@
+#!/bin/bash
+#cut mkv videos
+
+
+####hints for fgrep 
+#sed regex multiple
+#grep into array
+#
+#
+#
+#####################
+exists()
+{
+	if command -v $1 &>/dev/null
+	then
+		return 1
+	else
+		exit "Command: $1 not found...exit"
+	fi
+}
+function mergevideo(){
+	exit
+
+}
+
+###########################
+
+for ARG in $@
+do
+	if [ -f $ARG ]
+	then
+		#is matroska?
+		if  [ "$(file "$ARG"| grep -i "Matroska")" ] ;
+		then 
+			mkvmerge -i "$ARG"|grep  'Track' |while read value
+			do 			
+				id=$(echo  "$value"|cut -d " " -f 3|sed 's/://g')
+				type=$(echo  "$value"|cut -d " " -f 4)
+				extension=$(echo  "$value"|cut -d " " -f 5|sed 's/(//g;s/)//g')
+
+				echo -e $id "\t" $type  $extension
+
+				arr[i]="$value"
+				i=$(($i+1 ))
+
+			done
+		fi
+		
+
+
+
+	else
+		echo $ARG isn\'t a file
+	fi
+done
+
+

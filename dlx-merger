@@ -55,11 +55,11 @@ fi
 
 
 local BASE=$(basename `pwd`).avi #dirname
-BASE=$(echo $FOLDER|sed 's|/*||g').avi				#name of the new vid
+BASE=$(echo $FOLDER|sed 's|/*||g').avi
 
 echo -e Merger: videos found: ${PARTS[*]}
 echo -e "\n"
-avimerge -o "$BASE" -i  ${PARTS[*]}  >/dev/null  2>&1
+avimerge -o $BASE -i  ${PARTS[*]}  >/dev/null  2>&1
 
 
 local RETCODE=$?
@@ -78,13 +78,12 @@ return $RETCODE
 ################################################################
 #####is dir?
 
-for ARG in "$@"
+for ARG in $@ 
 do 
-	if [  -d "$ARG" ]
+	if [  -d $ARG ]
 	then
-		
 		mergevideo "$ARG"
-		 
+		echo 
 	else
 		echo $ARG isn\'t a directory
 	

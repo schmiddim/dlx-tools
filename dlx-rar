@@ -1,0 +1,64 @@
+#!/bin/bash
+
+#search password and show files
+#passwords are in ~pwlist
+listfiles() {
+	exec 9<~/.pwlist
+	if [[ $? !=  0 ]]
+	then
+		exit
+	fi
+	while read -u9 line
+	do
+		hideoutput=$(unrar vb -p- -p$line "$1" 2>/dev/null)
+
+
+		if [ $? -eq 0 ]		#errcode 3 pwd wrong
+		then 	
+			echo -e "password is $line"		
+			pass=$line
+			unrar vb -p$pass "$1" 
+			break
+		fi
+	done 
+	if [[ $pass == "" ]]	
+	then	
+		echo "password not found for $1"
+		exit
+	fi
+}
+
+
+
+extract() {
+	if [ "$1" ]
+	then
+		listfiles "$1"
+		files=$(unrar x -p- -o+ -p$pass "$1")
+		if [[ $? == 0 ]]
+		then
+			for item in $files; do			 			#	echo $item
+				if [[ $item == *rar ]]
+				then
+	   item=$(echo $item|sed -e 's/Extracting from //g')
+					echo remove $item
+					rm $item
+				fi	
+			done		
+		fi
+	fi
+}
+
+SAFEIFS=$IFS
+IFS=$(echo -en "\n\b")
+
+for ARG in "$@"
+do	
+	if [ -f $ARG ]
+	then
+		extract "$ARG"
+	fi
+done
+
+#restore $IFS
+IFS=$SAVEIFS

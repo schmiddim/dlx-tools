@@ -1,0 +1,53 @@
+#!/bin/bash
+
+##Datei wird umbenannt in Verzeichnissname.Endung
+
+#Downloads
+##file extension
+
+function rename()
+{
+	BASE=$(basename "$1")
+	local LIST=$(find "$1" -maxdepth 2 -name '*.avi'  -or -name '*.mkv'|sort -n)
+	
+	for F in ${LIST[@]}
+	do
+		
+		if [[ "$F" =~ .*Sample* ]]	#don't need the Sample
+			then
+				echo >/dev/null	##eq to ;
+			else			
+				local PARTS=("${PARTS[@]}" "$F")
+		fi
+	done
+	EXTENSION=$(echo $LIST|awk -F . '{print $NF}')	
+
+	FULLNAME=$BASE.$EXTENSION
+
+	echo move $PARTS to $FULLNAME
+	if [[ -d $BASE ]]
+		then
+		$(mv "$PARTS" $FULLNAME)
+		if [ $? -eq 0 ]
+		then
+			echo file=$FULLNAME
+			$(rm -R $BASE)
+		else
+			echo "something wrong"
+		fi
+	else 
+		echo confused!!!!!!!!!!!!!!!!!!11
+	fi
+
+}
+
+for ARG in "$@"
+do 
+	if [ -d $ARG ]
+	then
+		rename "$ARG"
+	else	
+		echo $ARG isn\'t a directory
+	fi
+
+done

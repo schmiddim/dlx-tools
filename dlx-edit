@@ -13,7 +13,6 @@
 function edit(){
 
 	BASE=$(basename "$1")
-
 	local LIST=$(find "$1" -maxdepth 2 -name '*.avi'  -or -name '*.mkv'|sort -n)
 	#for F in "$LIST"
 	for F in ${LIST[@]}
@@ -51,7 +50,7 @@ echo "..."
 	
 	if [[ $count -ge 2 ]]; then
 		echo "$1 more than 1 vid found -> merger"
-		echo "$1"
+		echo $1
 		local value=$(dlx-merger "$1")
 		echo $value
 		dlx-regexer ${value##*file=}

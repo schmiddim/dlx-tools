@@ -1,3 +1,16 @@
+Some usefull bash scripts for downloads. Just give it a try.
+Script name		Description
+dlx-compression		disables header compression on mkv files
+dlx-cut			removes intro and closing from a video (not yet on mkv)
+dlx-edit		combines dlx-regexer, dlx-rename and dlx-merger
+dlx-merger		some movies are splitted in 2 files. this script merges them into one
+dlx-mkv-cut		not working yet :(
+dlx-rar			extract rar files and remove them after success. 
+			Script read passwords from ~/.pwlist. 
+dlx-regexer/-addpattern Remove release info from files and add new pattern to the list of terms (~/.regexer.sed)
+dlx-rename		moves a video from folder and rename it
+
+
 example:
 
 
