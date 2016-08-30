@@ -20,8 +20,8 @@ function regexer()
 	NEW=$(echo $1 |sed -f $REGEXFILE)
 	NEW=$(echo $NEW |sed 's/.-/./g')
 	NEW=$(echo $NEW |sed 's/\.\{2,\}/./g') # remove .. ... ....	
-NEW=$(echo $NEW |sed 's/ \./\./g')
-#	NEW=$(echo $NEW |awk {'print tolower($_)'})	#to lower
+	NEW=$(echo $NEW |sed 's/ \./\./g')
+	NEW=$(echo $NEW |awk {'print tolower($_)'})	#to lower
 	if [ "$1" != "$NEW" ]
 	then
 		echo new name: $NEW
